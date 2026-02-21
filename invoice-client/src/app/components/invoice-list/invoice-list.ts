@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InvoiceService } from '../../services/invoice.service';
+import { PdfService } from '../../services/pdf.service';
 import { Invoice } from '../../models/models';
 
 @Component({
@@ -24,6 +25,7 @@ export class InvoiceListComponent implements OnInit {
 
     constructor(
         private invoiceService: InvoiceService,
+        private pdfService: PdfService,
         private router: Router,
         private cdr: ChangeDetectorRef
     ) { }
@@ -115,5 +117,9 @@ export class InvoiceListComponent implements OnInit {
             style: 'currency',
             currency: 'TRY'
         }).format(amount);
+    }
+
+    onExportPdf(invoice: Invoice): void {
+        this.pdfService.exportInvoicePdf(invoice);
     }
 }
