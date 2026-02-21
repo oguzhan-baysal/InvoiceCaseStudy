@@ -25,12 +25,12 @@ namespace InvoiceApi.Controllers
         {
             var totalInvoices = await _context.Invoices.CountAsync();
             var totalCustomers = await _context.Customers.CountAsync();
-            var totalAmount = await _context.Invoices.SumAsync(i => i.TotalAmount);
+            var totalAmount = await _context.Invoices.SumAsync(i => (decimal?)i.TotalAmount) ?? 0;
 
             var last30Days = DateTime.UtcNow.AddDays(-30);
             var recentAmount = await _context.Invoices
                 .Where(i => i.InvoiceDate >= last30Days)
-                .SumAsync(i => i.TotalAmount);
+                .SumAsync(i => (decimal?)i.TotalAmount) ?? 0;
             var recentCount = await _context.Invoices
                 .Where(i => i.InvoiceDate >= last30Days)
                 .CountAsync();
