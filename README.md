@@ -57,9 +57,14 @@ npm start
 
 ## ✨ Özellikler
 - ✅ JWT Authentication & Session Management
+- ✅ Dashboard İstatistik Paneli (KPI Kartları)
+- ✅ Fatura CRUD (Ekleme, Düzenleme, Silme)
+- ✅ Müşteri Yönetimi (Full CRUD)
+- ✅ PDF Fatura Dışa Aktarma (jsPDF)
+- ✅ Toast Bildirim Sistemi (Signals)
 - ✅ Fatura Filtreleme (Tarih Aralığı)
 - ✅ Dinamik Fatura Kalemi Ekleme/Çıkarma
-- ✅ Otomatik Tutar ve KDV Hesaplamaları
+- ✅ Otomatik Tutar Hesaplamaları
 - ✅ SQLite ile Taşınabilir Veritabanı
 - ✅ Swagger OpenAPI Entegrasyonu
-```
+- ✅ Responsive Tasarım (Bootstrap 5)
