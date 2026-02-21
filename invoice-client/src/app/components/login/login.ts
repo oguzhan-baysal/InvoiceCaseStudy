@@ -24,7 +24,7 @@ export class LoginComponent {
         private cdr: ChangeDetectorRef
     ) {
         if (this.authService.hasToken()) {
-            this.router.navigate(['/invoices']);
+            this.router.navigate(['/dashboard']);
         }
     }
 
@@ -46,7 +46,7 @@ export class LoginComponent {
 
         this.authService.login(request).subscribe({
             next: () => {
-                this.router.navigate(['/invoices']);
+                this.router.navigate(['/dashboard']);
             },
             error: (err) => {
                 this.isLoading = false;
