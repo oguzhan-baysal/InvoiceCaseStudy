@@ -1,0 +1,107 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - Angular 21
+  - Bootstrap 5
+  - Angular Signals
+  - Zoneless Change Detection
+  - jsPDF
+routes:
+  - path: /login
+    file: src/app/components/login/login.ts
+    auth_required: false
+    description: Kullanıcı giriş sayfası
+  - path: /dashboard
+    file: src/app/components/dashboard/dashboard.ts
+    auth_required: true
+    description: İstatistik paneli ve özet bilgiler
+  - path: /invoices
+    file: src/app/components/invoice-list/invoice-list.ts
+    auth_required: true
+    description: Faturaların listelendiği ve tarihe göre filtrelendiği sayfa
+  - path: /invoices/new
+    file: src/app/components/invoice-form/invoice-form.ts
+    auth_required: true
+    description: Yeni fatura oluşturma formu
+  - path: /invoices/edit/:id
+    file: src/app/components/invoice-form/invoice-form.ts
+    auth_required: true
+    description: Mevcut faturayı düzenleme formu
+  - path: /customers
+    file: src/app/components/customer-list/customer-list.ts
+    auth_required: true
+    description: Müşteri listesi ve CRUD yönetimi
+features:
+  - name: Kullanıcı Girişi
+    description: Admin kullanıcı adı ve şifresiyle sisteme giriş yapma
+    files:
+      - src/app/components/login/login.ts
+      - src/app/services/auth.service.ts
+    entry_route: /login
+    user_interactions:
+      - Kullanıcı adını gir
+      - Şifreyi gir
+      - Giriş yap butonuna tıkla
+    api_calls:
+      - method: POST
+        endpoint: /api/auth/login
+    auth_required: false
+  - name: Dashboard İstatistikleri
+    description: Toplam fatura, tutar ve son işlemleri görüntüleme
+    files:
+      - src/app/components/dashboard/dashboard.ts
+      - src/app/services/dashboard.service.ts
+    entry_route: /dashboard
+    user_interactions:
+      - İstatistik kartlarını incele
+      - Son faturalar tablosunu gör
+    api_calls:
+      - method: GET
+        endpoint: /api/dashboard/stats
+    auth_required: true
+  - name: Fatura Yönetimi
+    description: Fatura oluşturma, düzenleme, silme ve PDF alma
+    files:
+      - src/app/components/invoice-list/invoice-list.ts
+      - src/app/components/invoice-form/invoice-form.ts
+      - src/app/services/invoice.service.ts
+      - src/app/services/pdf.service.ts
+    entry_route: /invoices
+    user_interactions:
+      - Tarih aralığına göre filtrele
+      - Yeni fatura ekle sayfasına git
+      - Fatura satırlarını dinamik ekle/çıkar
+      - PDF butonuna tıklayarak indir
+      - Faturayı sil
+    api_calls:
+      - method: GET
+        endpoint: /api/invoice/list
+      - method: POST
+        endpoint: /api/invoice/save
+      - method: PUT
+        endpoint: /api/invoice/update
+      - method: DELETE
+        endpoint: /api/invoice/delete
+    auth_required: true
+  - name: Müşteri Yönetimi
+    description: Müşteri bilgilerini CRUD olarak yönetme
+    files:
+      - src/app/components/customer-list/customer-list.ts
+      - src/app/services/customer.service.ts
+    entry_route: /customers
+    user_interactions:
+      - Yeni müşteri ekle butonuna tıkla
+      - Modal üzerinden müşteri bilgilerini gir
+      - Müşteriyi düzenle veya sil
+    api_calls:
+      - method: GET
+        endpoint: /api/customer/list
+      - method: POST
+        endpoint: /api/customer/save
+      - method: PUT
+        endpoint: /api/customer/update
+      - method: DELETE
+        endpoint: /api/customer/delete
+    auth_required: true
+known_limitations: []
