@@ -33,13 +33,29 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (explicit test step) to reach the login page and continue the login flow.
+        # -> Navigate to /login to load the login page and reveal the login inputs/buttons.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Type 'admin' into the username field (index 74), type 'admin123' into the password field (index 80), then click the Login button (index 81).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
         assert '/dashboard' in frame.url
-        await expect(frame.locator("xpath=//section[contains(., 'Toplam Fatura') and contains(., 'Toplam Tutar')]").first).to_be_visible(timeout=3000)
+        await expect(frame.locator('xpath=//section[contains(.,"Statistics cards")]').first).to_be_visible(timeout=3000)
         await expect(frame.locator('text=Toplam Fatura').first).to_be_visible(timeout=3000)
         await expect(frame.locator('text=Toplam Tutar').first).to_be_visible(timeout=3000)
         await asyncio.sleep(5)

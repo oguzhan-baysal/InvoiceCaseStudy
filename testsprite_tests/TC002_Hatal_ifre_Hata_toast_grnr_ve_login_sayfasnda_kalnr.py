@@ -36,7 +36,7 @@ async def run_test():
         # -> Navigate to /login (http://localhost:4200/login) to reach the login form as the next immediate action.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
         
-        # -> Type 'admin' into the 'Kullanıcı Adı' field (input index 73) as the next immediate action.
+        # -> Fill the login form with username 'admin' and wrong password 'wrong-password-123', then click the 'Giriş Yap' button (index 81).
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
@@ -56,7 +56,7 @@ async def run_test():
         frame = context.pages[-1]
         assert '/login' in frame.url
         await expect(frame.locator('text=Hata').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('xpath=//div[contains(@class,"toast") or contains(@class,"Toast")]').first).to_be_visible(timeout=3000)
+        await expect(frame.locator('text=toast').first).to_be_visible(timeout=3000)
         assert '/login' in frame.url
         await asyncio.sleep(5)
 

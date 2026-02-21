@@ -33,15 +33,29 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login as the test step requires).
+        # -> Navigate directly to /login since no clickable elements are available on the current page. After navigation, if the page appears blank, wait a few seconds and re-check for interactive elements.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Type the password into the 'Şifre' field and click the 'Giriş Yap' button to attempt login with an empty username, then verify the login page remains and an error/validation message is shown.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/login' in frame.url
-        assert '/login' in frame.url
-        await expect(frame.locator('text=Kullanıcı adı').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Hata').first).to_be_visible(timeout=3000)
+        assert "/login" in frame.url
+        await page.wait_for_timeout(1000)
+        assert "/login" in frame.url
+        await frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').wait_for(state="visible", timeout=5000)
+        assert await frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').is_visible()
+        await frame.locator('xpath=/html/body/app-root/app-toast/div').wait_for(state="visible", timeout=5000)
+        assert await frame.locator('xpath=/html/body/app-root/app-toast/div').is_visible()
         await asyncio.sleep(5)
 
     finally:

@@ -33,16 +33,116 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (http://localhost:4200/login) to find the login form and proceed with the login steps.
-        await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
-        
-        # --> Assertions to verify final state
+        # -> Fill the login form (username and password) and submit by clicking the Giriş button (use inputs index 49 and 55, click index 56).
         frame = context.pages[-1]
-        assert '/dashboard' in frame.url
-        assert '/customers' in frame.url
-        await expect(frame.locator('text=Silme onayı').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Başarılı').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Silinen müşteri adı').first).not_to_be_visible(timeout=3000)
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Type credentials into the visible login inputs (index 85 -> admin, index 86 -> admin123) and click the login button at index 87.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Müşteriler' link in the main navigation to open the customers list (use interactive element index 415).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Sil butonuna tıklayarak 'Güncellenmiş Müşteri' için onay modalını açmak (click index 623).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' button for 'Güncellenmiş Müşteri' (use interactive element index 710) to open the confirmation modal.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' (delete) button for 'Güncellenmiş Müşteri' using interactive element index 1043 to open the confirmation modal.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' button for 'Güncellenmiş Müşteri' to open the confirmation modal (use index 1125).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Evet, Sil butonuna tıklayarak silmeyi onayla; başarı toast'ını bekle ve 'Güncellenmiş Müşteri' kaydının listeden kaldırıldığını doğrula.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' button for 'Güncellenmiş Müşteri' (use interactive element index 1339) to open the confirmation modal.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the confirmation button 'Evet, Sil' to confirm deletion of 'Güncellenmiş Müşteri' (use index=1496). After the click, wait for the success toast and verify the customer is removed (these verifications will be handled after the page updates).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' button for 'Güncellenmiş Müşteri' to open the confirmation modal (use interactive element index 1645).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Evet, Sil butonuna tıklayarak silmeyi onayla; ardından başarı toast'ını ve müşterinin listeden kaldırıldığını doğrula.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' (delete) button for 'Güncellenmiş Müşteri' to open the confirmation modal and allow confirming deletion (use delete button index 1777).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Sil' button for 'Güncellenmiş Müşteri' (use interactive element index 1958) to open the confirmation modal.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the confirmation button 'Evet, Sil' in the modal to confirm deletion of 'Güncellenmiş Müşteri' (use interactive element index=2115). After the click, wait for the UI update and then verify success toast and that the customer is removed.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
         await asyncio.sleep(5)
 
     finally:

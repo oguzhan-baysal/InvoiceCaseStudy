@@ -14,14 +14,8 @@
 
 #### Test TC001 Başarılı giriş: Login’den dashboard’a yönlendirme
 - **Test Code:** [TC001_Baarl_giri_Loginden_dashboarda_ynlendirme.py](./TC001_Baarl_giri_Loginden_dashboarda_ynlendirme.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page at '/login' loaded but contains no interactive elements; login form fields and 'Giriş yap' button not found on page.
-- SPA did not render expected UI; page appears empty (0 interactive elements) as shown in the browser state and screenshot.
-- Unable to perform login with admin/admin123 because form elements are missing, preventing navigation to /dashboard.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/0eee8d25-d3fe-4df2-83cc-bc018cc0b3b4
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/89faaefc-0c28-4b60-8a3d-0f9efab2df7b
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
@@ -30,85 +24,66 @@ ASSERTIONS:
 - **Test Error:** TEST FAILURE
 
 ASSERTIONS:
-- Error notification with text 'Hata' not found on the page after submitting an incorrect password.
-- Toast notification indicating a login error is not present or visible after the failed login attempt.
-- Login page remained open (URL contains '/login') but no visible error feedback was shown to the user.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/9a404195-f8ac-4927-b0c5-169b46582f70
+- Error notification not displayed after submitting incorrect credentials ('admin' / 'wrong-password-123').
+- No toast message or visible error element found on the login page following the failed login attempt.
+- Login form remains visible and URL contains '/login', but no feedback explaining the failure was provided.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/0f5ec3ac-185b-4786-83ff-0b1957fd5dee
 - **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC003 Var olmayan kullanıcı: Hata toast görünür ve login sayfasında kalınır
 - **Test Code:** [TC003_Var_olmayan_kullanc_Hata_toast_grnr_ve_login_sayfasnda_kalnr.py](./TC003_Var_olmayan_kullanc_Hata_toast_grnr_ve_login_sayfasnda_kalnr.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page at /login did not render any interactive elements (0 interactive elements) and the login form is absent.
-- Username and password input fields not found on the page, preventing credential entry.
-- 'Giriş yap' button not present / clickable because no interactive elements are available.
-- Error notification ('Hata') and toast could not be verified because the UI elements required for validation are missing.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/c39ebf35-51ee-49d4-911d-74eadaa775fb
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/cdf9da0f-9af3-4d88-bb61-595be825844e
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC004 Boş alanlar: Form doğrulama ile giriş engellenir
 - **Test Code:** [TC004_Bo_alanlar_Form_dorulama_ile_giri_engellenir.py](./TC004_Bo_alanlar_Form_dorulama_ile_giri_engellenir.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/804e506a-cb00-460a-9ea1-8a077198e2dd
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/a32d4753-375c-4bcf-a7d7-d0cd19bfe784
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC005 Sadece kullanıcı adı girili: Şifre zorunlu uyarısı ile giriş engellenir
 - **Test Code:** [TC005_Sadece_kullanc_ad_girili_ifre_zorunlu_uyars_ile_giri_engellenir.py](./TC005_Sadece_kullanc_ad_girili_ifre_zorunlu_uyars_ile_giri_engellenir.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/90d38c54-db7e-453a-b83b-58bdb7bea20c
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/9464dca8-3868-4781-9760-4fd147dba743
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC006 Sadece şifre girili: Kullanıcı adı zorunlu uyarısı ile giriş engellenir
 - **Test Code:** [TC006_Sadece_ifre_girili_Kullanc_ad_zorunlu_uyars_ile_giri_engellenir.py](./TC006_Sadece_ifre_girili_Kullanc_ad_zorunlu_uyars_ile_giri_engellenir.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/0c7b8cc0-b88d-479c-b0d3-617fb96b5278
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/91ea693f-6e42-4c97-a79c-14832565cc7c
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC007 Dashboard KPI kartları ve Son Faturalar tablosu başarıyla yüklenir
 - **Test Code:** [TC007_Dashboard_KPI_kartlar_ve_Son_Faturalar_tablosu_baaryla_yklenir.py](./TC007_Dashboard_KPI_kartlar_ve_Son_Faturalar_tablosu_baaryla_yklenir.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/bd5c6650-bfdd-487f-ad6e-88375d7de905
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/db0e1566-3ade-468d-bc28-0df2714e1179
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC008 Dashboard açılışında istatistik kartları görünür ve temel KPI başlıkları mevcut
 - **Test Code:** [TC008_Dashboard_alnda_istatistik_kartlar_grnr_ve_temel_KPI_balklar_mevcut.py](./TC008_Dashboard_alnda_istatistik_kartlar_grnr_ve_temel_KPI_balklar_mevcut.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page at /login did not render; the page displays a blank viewport with 0 interactive elements.
-- Username and password input fields and the Login button are not present on the page, preventing login and further navigation to the dashboard.
-- Dashboard KPI cards could not be verified because the SPA UI did not load after navigation to /login.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/f46e1bce-cf77-4074-984e-40eb70db7407
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/283a2c12-d67f-4dcf-be1e-42eb573d2847
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC009 Dashboard Son Faturalar tablosu görünür ve tablo başlıkları mevcut
 - **Test Code:** [TC009_Dashboard_Son_Faturalar_tablosu_grnr_ve_tablo_balklar_mevcut.py](./TC009_Dashboard_Son_Faturalar_tablosu_grnr_ve_tablo_balklar_mevcut.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page at http://localhost:4200/login did not render and contains 0 interactive elements, preventing any UI interaction.
-- Username/email input, password input, and Login button were not found on the page, so login could not be performed.
-- Dashboard could not be reached; therefore 'Son Faturalar' and the recent invoices table and its header row could not be verified.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/ee3dc640-f746-4ebe-953e-6146c27d0cbd
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/28ce0b31-8339-485f-81d5-11063b3c2c7c
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC010 Dashboard sayfasında temel içerik bölümleri görünür (sayfa iskeleti)
 - **Test Code:** [TC010_Dashboard_sayfasnda_temel_ierik_blmleri_grnr_sayfa_iskeleti.py](./TC010_Dashboard_sayfasnda_temel_ierik_blmleri_grnr_sayfa_iskeleti.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/762bbf89-f7b9-4ca9-acff-787f2143d4f0
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/94a090a7-6c8d-49f0-80a4-0dfe4bdf4bb3
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
@@ -118,65 +93,45 @@ ASSERTIONS:
 - **Test Error:** TEST FAILURE
 
 ASSERTIONS:
-- Login form not found on /login - page contains 0 interactive elements and no username/password fields.
-- SPA did not render after navigation and waiting - page appears blank.
-- Unable to perform authentication with provided credentials because login controls are missing.
-- Invoice list and filtering cannot be tested because navigation to dashboard/invoices is not possible due to missing UI.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/8e3b7eda-197a-43e1-8a77-32cfc72298a7
+- Filtered date range 2026-02-01 to 2026-02-28 was applied but an invoice dated 15.01.2026 (outside the selected range) is still displayed.
+- The invoice list shows 'Toplam 2 fatura listelendi.' while only 1 invoice falls within the selected date range, indicating incorrect filtering.
+- Filtering did not exclude invoices outside the selected start/end dates, so the UI did not reflect the expected filtered result.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/e44878c6-7738-4ff3-bc9d-46b8054b53bb
 - **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC012 Tarih aralığı filtresi uygula ve sonuçların ekranda değiştiğini gör
 - **Test Code:** [TC012_Tarih_aral_filtresi_uygula_ve_sonularn_ekranda_deitiini_gr.py](./TC012_Tarih_aral_filtresi_uygula_ve_sonularn_ekranda_deitiini_gr.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/a0c58dba-bd04-48a8-adf9-ce8c84663d0e
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/65dd830b-54ac-4456-baeb-557dec85dafe
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC013 Yeni fatura oluşturma: müşteri seç, satır ekle, kaydet ve listede gör
 - **Test Code:** [TC013_Yeni_fatura_oluturma_mteri_se_satr_ekle_kaydet_ve_listede_gr.py](./TC013_Yeni_fatura_oluturma_mteri_se_satr_ekle_kaydet_ve_listede_gr.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- No interactive elements found on http://localhost:4200/login - login form (username/password inputs and 'Giriş' button) is not present.
-- Login could not be performed because the login UI did not render, so dashboard navigation could not be verified.
-- New invoice flow (Faturalar -> Yeni Fatura Ekle) could not be executed because the application UI did not display interactive components.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/56739533-9c24-4357-a894-55713f35869b
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/e74b8d4d-5f27-4102-9ab5-e8bfc1f26aae
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC014 Yeni fatura formu açılır ve alanlar doldurulabilir
 - **Test Code:** [TC014_Yeni_fatura_formu_alr_ve_alanlar_doldurulabilir.py](./TC014_Yeni_fatura_formu_alr_ve_alanlar_doldurulabilir.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login form not found on /login
-- Current page has 0 interactive elements (page did not render)
-- Screenshot is blank or empty indicating the SPA failed to render
-- Unable to proceed to 'Faturalar' or 'Yeni Fatura Ekle' because UI elements are not available
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/ed71ff02-fb89-4a6a-b16b-308f2842b8e8
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/a6d9ad29-f657-446b-9def-4a18c3325773
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC015 Yeni fatura validasyon: müşteri boşken kaydetmeye izin verilmez
 - **Test Code:** [TC015_Yeni_fatura_validasyon_mteri_boken_kaydetmeye_izin_verilmez.py](./TC015_Yeni_fatura_validasyon_mteri_boken_kaydetmeye_izin_verilmez.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- SPA at http://localhost:4200/login did not render; page contains 0 interactive elements.
-- Login fields (username/password) and 'Giriş' button were not present, so login could not be attempted.
-- Invoice creation flow (navigation to Faturalar -> Yeni Fatura Ekle -> Kaydet) could not be reached because the application's UI did not load.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/601dc1dd-aa15-41c1-afd7-f3523a617ad3
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/8e2d80e4-4700-48fa-befe-f76162d88782
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC016 Yeni müşteri ekleme (başarılı) ve listede görünmesi
 - **Test Code:** [TC016_Yeni_mteri_ekleme_baarl_ve_listede_grnmesi.py](./TC016_Yeni_mteri_ekleme_baarl_ve_listede_grnmesi.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/d7ef4dd7-9d4d-42cf-ae0c-a750cea1adab
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/1d70ca9a-25f0-4005-9639-a53b8f61b4a9
 - **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
@@ -186,67 +141,53 @@ ASSERTIONS:
 - **Test Error:** TEST FAILURE
 
 ASSERTIONS:
-- ASSERTION: Page at http://localhost:4200/login loaded but the SPA did not render; there are 0 interactive elements present on the page.
-- ASSERTION: Login form and related UI controls are not present, preventing automated login with the provided credentials (admin/admin123).
-- ASSERTION: Dashboard and customers pages are unreachable because the application UI did not render, so the remaining test steps cannot be executed.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/1192e1e9-d7fe-4338-88c2-e1f580c0f0ca
+- Customer creation modal does not contain an 'Ad Soyad' (Customer Name) input field; the test step to enter the customer name cannot be completed.
+- The test requires attempting registration with an existing email (duplicate@example.com) but that email is not present in the current customer list, so the duplicate-email validation cannot be verified as specified.
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/69a8a05d-0ddd-42b0-852f-145b80d01cb5
 - **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC018 Müşteri düzenleme (başarılı) ve listede güncellemenin görünmesi
 - **Test Code:** [TC018_Mteri_dzenleme_baarl_ve_listede_gncellemenin_grnmesi.py](./TC018_Mteri_dzenleme_baarl_ve_listede_gncellemenin_grnmesi.py)
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/0d64cd53-6632-4da6-b554-84dc602426e8
-- **Status:** ✅ Passed
+- **Test Error:** TEST FAILURE
+
+ASSERTIONS:
+- Kaydet (save) button not interactable: click action failed twice (elements indices used were not interactable or became stale), so the save could not be performed via the UI during this test.
+- No 'Başarılı' toast was observed after the attempted save actions, so success notification cannot be verified.
+- Unable to confirm that the edit/save flow completed in this session because the modal could not be submitted successfully.
+- Although the customer name 'Güncellenmiş Müşteri' is visible in the customers list, there is no evidence that this test run performed the save (the updated name may have been present before the test).
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/af775fb6-ce48-4b71-9333-5d20a8e54a21
+- **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC019 Müşteri silme (başarılı) ve listeden kaldırılması
 - **Test Code:** [TC019_Mteri_silme_baarl_ve_listeden_kaldrlmas.py](./TC019_Mteri_silme_baarl_ve_listeden_kaldrlmas.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page did not render: 0 interactive elements found on http://localhost:4200/login
-- SPA appears blank after navigation and waiting; login form and navigation elements are not present
-- Cannot perform login or customer deletion because required UI elements are unavailable
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/d952a3f3-a033-4b00-b6ac-b8a537290cbc
+- **Test Error:** Waited for 5 seconds
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/b67e71c2-62ad-418a-9ac4-9fdda899d4e3
 - **Status:** ❌ Failed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC020 Yeni müşteri modalını iptal etme (kayıt yapılmaz)
 - **Test Code:** [TC020_Yeni_mteri_modaln_iptal_etme_kayt_yaplmaz.py](./TC020_Yeni_mteri_modaln_iptal_etme_kayt_yaplmaz.py)
-- **Test Error:** Görev tamamlandı.
-
-Kontroller ve bulgular:
-- ASSERTION: Add-customer modal görünür değil (sayfada modal içeriği veya modal inputları gözlemlenmedi). 'Yeni Müşteri' butonu görünür (element index 756), bu modalın kapalı olduğunu destekliyor.
-- ASSERTION: Müşteri listesi sayfada şu kayıtları içeriyor: 1234567890 - ABC Teknoloji A.Ş.; 5555555555 - DEF Danışmanlık A.Ş.; 9876543210 - XYZ Yazılım Ltd. Şti. Sayfanın altındaki metin: 'Toplam 3 müşteri listelendi.'
-- ASSERTION: Sayfa içeriğinde 'İptal Edilen Müşteri' metni bulunamadı — yeni bir kayıt oluşmamış.
-
-Sonuç: Kullanıcı yeni müşteri ekleme modalını kapatmış gibi görünüyor (modal kapalı) ve listede 'İptal Edilen Müşteri' adlı bir kayıt yok. İstenen doğrulamalar tamamlandı ve görev başarılı şekilde bitirildi.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/16686aaf-f66a-44c8-b68c-c79d3c1698a2
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/8bced162-51ac-4dbd-a6dc-181f3917cbae
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 #### Test TC021 Müşteri listesi sayfası açılışı ve temel görünürlük kontrolleri
 - **Test Code:** [TC021_Mteri_listesi_sayfas_al_ve_temel_grnrlk_kontrolleri.py](./TC021_Mteri_listesi_sayfas_al_ve_temel_grnrlk_kontrolleri.py)
-- **Test Error:** TEST FAILURE
-
-ASSERTIONS:
-- Login page did not render: no interactive elements found on http://localhost:4200/login.
-- Login form fields (username/email and password) not present on the page.
-- SPA did not load after explicit navigation to /login, preventing any further actions.
-- Cannot perform login or navigate to /dashboard or /customers because required controls are missing.
-- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/870744d3-6ec1-4184-b9d1-d75b51fd5bd3/dab97366-014e-48f2-886a-ef42ce95ccb6
-- **Status:** ❌ Failed
+- **Test Visualization and Result:** https://www.testsprite.com/dashboard/mcp/tests/89b27d25-3509-48b1-bae2-0024011d744f/30da1530-86c0-47ec-802e-287c593d98ed
+- **Status:** ✅ Passed
 - **Analysis / Findings:** {{TODO:AI_ANALYSIS}}.
 ---
 
 
 ## 3️⃣ Coverage & Matching Metrics
 
-- **38.10** of tests passed
+- **76.19** of tests passed
 
 | Requirement        | Total Tests | ✅ Passed | ❌ Failed  |
 |--------------------|-------------|-----------|------------|

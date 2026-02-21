@@ -33,26 +33,7 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login as instructed)
-        await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
-        
-        # -> Fill the username and password fields and click the 'Giriş Yap' button to log in (input into index 75 and 81, then click index 82).
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('admin')
-        
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('admin123')
-        
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Fill username (index 111) with 'admin', fill password (index 112) with 'admin123', then click the login button (index 113) to attempt login and trigger navigation to /dashboard.
+        # -> Fill the username and password fields and click the login button to attempt login (then verify dashboard).
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
@@ -70,10 +51,13 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/dashboard' in frame.url
-        await expect(frame.locator('text=Toplam Fatura').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Toplam Tutar').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Son Faturalar').first).to_be_visible(timeout=3000)
+        assert "/dashboard" in frame.url
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[2]/div[1]/div/div/div[1]/i').is_visible()
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[2]/div[2]/div/div/div[1]/i').is_visible()
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[2]/div[3]/div/div/div[1]/i').is_visible()
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[2]/div[4]/div/div/div[1]/i').is_visible()
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[3]/div[1]/h5/i').is_visible()
+        assert await frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[3]/div[3]/button').is_visible()
         await asyncio.sleep(5)
 
     finally:

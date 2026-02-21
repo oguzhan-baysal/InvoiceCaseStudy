@@ -53,8 +53,22 @@ namespace InvoiceApi.Controllers
         [HttpPost("save")]
         public async Task<IActionResult> CustomerSave([FromBody] CustomerDto input)
         {
-            if (input == null || string.IsNullOrEmpty(input.Title))
-                return BadRequest(new { message = "Müşteri bilgileri eksik." });
+            var userId = GetCurrentUserId();
+
+            // Duplicate Check
+            if (!string.IsNullOrEmpty(input.EMail))
+            {
+                var existingEmail = await _context.Customers.AnyAsync(c => c.EMail == input.EMail);
+                if (existingEmail)
+                    return Conflict(new { message = "Bu e-posta adresi ile zaten bir müşteri kayıtlı." });
+            }
+
+            if (!string.IsNullOrEmpty(input.TaxNumber))
+            {
+                var existingTax = await _context.Customers.AnyAsync(c => c.TaxNumber == input.TaxNumber);
+                if (existingTax)
+                    return Conflict(new { message = "Bu vergi numarası ile zaten bir müşteri kayıtlı." });
+            }
 
             var customer = new Customer
             {
@@ -62,7 +76,7 @@ namespace InvoiceApi.Controllers
                 Title = input.Title,
                 Address = input.Address,
                 EMail = input.EMail,
-                UserId = GetCurrentUserId(),
+                UserId = userId,
                 RecordDate = DateTime.UtcNow
             };
 
@@ -84,6 +98,14 @@ namespace InvoiceApi.Controllers
             var customer = await _context.Customers.FindAsync(input.CustomerId);
             if (customer == null)
                 return NotFound(new { message = "Müşteri bulunamadı." });
+
+            // Duplicate Check (excluding current)
+            if (!string.IsNullOrEmpty(input.EMail))
+            {
+                var existingEmail = await _context.Customers.AnyAsync(c => c.EMail == input.EMail && c.CustomerId != input.CustomerId);
+                if (existingEmail)
+                    return Conflict(new { message = "Bu e-posta adresi ile başka bir müşteri kayıtlı." });
+            }
 
             customer.TaxNumber = input.TaxNumber;
             customer.Title = input.Title;

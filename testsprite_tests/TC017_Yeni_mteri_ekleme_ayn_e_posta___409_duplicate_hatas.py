@@ -33,14 +33,39 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login) so the login page/sidebar can render and interactive elements become available.
-        await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        # -> Type username and password into the login form and click the 'Giriş Yap' button to sign in.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click on 'Müşteriler' in the main navigation menu to open the customers page.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Yeni Müşteri' button to open the Add Customer modal (use interactive element index 471).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
         assert '/dashboard' in frame.url
         assert '/customers' in frame.url
-        await expect(frame.locator("xpath=//h2[contains(., 'Müşteri ekleme') or contains(., 'Müşteri düzenleme')]").first).to_be_visible(timeout=3000)
+        await expect(frame.locator('xpath=//h2[text()="Müşteri Ekle"]').first).to_be_visible(timeout=3000)
         await expect(frame.locator('text=Bu e-posta zaten kayıtlı').first).to_be_visible(timeout=3000)
         await expect(frame.locator('text=Test Duplicate').first).not_to_be_visible(timeout=3000)
         await asyncio.sleep(5)

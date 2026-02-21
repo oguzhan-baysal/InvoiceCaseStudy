@@ -137,10 +137,16 @@ namespace InvoiceApi.Controllers
                 .AsQueryable();
 
             if (startdate.HasValue)
-                query = query.Where(i => i.InvoiceDate >= startdate.Value);
+            {
+                var start = startdate.Value.Date;
+                query = query.Where(i => i.InvoiceDate >= start);
+            }
 
             if (enddate.HasValue)
-                query = query.Where(i => i.InvoiceDate <= enddate.Value);
+            {
+                var end = enddate.Value.Date.AddDays(1).AddTicks(-1);
+                query = query.Where(i => i.InvoiceDate <= end);
+            }
 
             var invoices = await query
                 .OrderByDescending(i => i.InvoiceDate)

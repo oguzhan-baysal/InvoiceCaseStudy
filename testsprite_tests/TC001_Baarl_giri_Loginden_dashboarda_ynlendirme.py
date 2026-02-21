@@ -33,14 +33,33 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login and verify the URL contains '/login'.
+        # -> Navigate explicitly to /login (http://localhost:4200/login) as the test step requires, then wait for the page to load and look for inputs with data-testid userName, password and loginButton.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> İlk adım: Kullanıcı adını (index 74) 'admin' olarak gir, ikinci adım: Şifreyi (index 80) 'admin123' olarak gir, üçüncü adım: Giriş butonuna (index 81) tıkla.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/login' in frame.url
-        assert '/dashboard' in frame.url
-        await expect(frame.locator('text=Dashboard').first).to_be_visible(timeout=3000)
+        frame = context.pages[-1]
+        # Verify we are on the dashboard page
+        assert "/dashboard" in frame.url
+        # Verify the "Dashboard" element is visible
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[1]/a')
+        assert await elem.is_visible()
         await asyncio.sleep(5)
 
     finally:

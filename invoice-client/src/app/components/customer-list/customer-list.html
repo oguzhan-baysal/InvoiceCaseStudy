@@ -4,7 +4,7 @@
         <h2>
             <i class="bi bi-people" style="color: #4361ee;"></i> Müşteri Yönetimi
         </h2>
-        <button class="btn btn-success-custom" (click)="onAdd()">
+        <button class="btn btn-success-custom" (click)="onAdd()" data-testid="new-customer-btn">
             <i class="bi bi-plus-lg me-1"></i> Yeni Müşteri
         </button>
     </div>
@@ -44,11 +44,11 @@
                         <td>{{ customer.eMail || '-' }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-warning-custom me-1" (click)="onEdit(customer)"
-                                title="Düzenle">
+                                title="Düzenle" [attr.data-testid]="'edit-btn-' + customer.customerId">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <button class="btn btn-sm btn-danger-custom" (click)="onDeleteClick(customer.customerId)"
-                                title="Sil">
+                                title="Sil" [attr.data-testid]="'delete-btn-' + customer.customerId">
                                 <i class="bi bi-trash3"></i>
                             </button>
                         </td>
@@ -97,37 +97,40 @@
                             <i class="bi bi-hash me-1"></i>Vergi No <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-custom"
-                            [(ngModel)]="currentCustomer.taxNumber" placeholder="Vergi numarası" />
+                            [(ngModel)]="currentCustomer.taxNumber" placeholder="Vergi numarası"
+                            data-testid="customer-taxnumber" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label form-label-custom">
-                            <i class="bi bi-building me-1"></i>Ünvan <span class="text-danger">*</span>
+                            <i class="bi bi-building me-1"></i>Ünvan / Ad Soyad <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-custom" [(ngModel)]="currentCustomer.title"
-                            placeholder="Firma ünvanı" />
+                            placeholder="Firma ünvanı veya isim" data-testid="customer-title" />
                     </div>
                     <div class="col-12">
                         <label class="form-label form-label-custom">
                             <i class="bi bi-geo-alt me-1"></i>Adres
                         </label>
                         <textarea class="form-control form-control-custom" rows="2"
-                            [(ngModel)]="currentCustomer.address" placeholder="Adres bilgisi"></textarea>
+                            [(ngModel)]="currentCustomer.address" placeholder="Adres bilgisi"
+                            data-testid="customer-address"></textarea>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label form-label-custom">
                             <i class="bi bi-envelope me-1"></i>E-Posta
                         </label>
                         <input type="email" class="form-control form-control-custom" [(ngModel)]="currentCustomer.eMail"
-                            placeholder="ornek@firma.com" />
+                            placeholder="ornek@firma.com" data-testid="customer-email" />
                     </div>
                 </div>
             </div>
             <div class="modal-footer border-0 px-4 pb-4">
                 <button type="button" class="btn btn-outline-secondary" (click)="onFormCancel()"
-                    style="border-radius: 8px;">
+                    style="border-radius: 8px;" data-testid="customer-form-cancel">
                     <i class="bi bi-x-lg me-1"></i>İptal
                 </button>
-                <button type="button" class="btn btn-primary-custom" (click)="onFormSave()">
+                <button type="button" class="btn btn-primary-custom" (click)="onFormSave()"
+                    data-testid="customer-form-save">
                     <i class="bi bi-check-lg me-1"></i>Kaydet
                 </button>
             </div>
@@ -155,10 +158,11 @@
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-outline-secondary" (click)="onDeleteCancel()"
-                    style="border-radius: 8px;">
+                    style="border-radius: 8px;" data-testid="delete-confirm-cancel">
                     <i class="bi bi-x-lg me-1"></i>İptal
                 </button>
-                <button type="button" class="btn btn-danger-custom" (click)="onDeleteConfirm()">
+                <button type="button" class="btn btn-danger-custom" (click)="onDeleteConfirm()"
+                    data-testid="delete-confirm-ok">
                     <i class="bi bi-trash3 me-1"></i>Evet, Sil
                 </button>
             </div>

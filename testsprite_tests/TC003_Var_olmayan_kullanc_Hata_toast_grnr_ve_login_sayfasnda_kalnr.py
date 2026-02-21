@@ -33,15 +33,33 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (http://localhost:4200/login) to find the login form and continue the test.
+        # -> Navigate to /login by issuing a navigate action to http://localhost:4200/login (explicit test step)
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Type 'nonexistent_user_9999' into the 'Kullanıcı Adı' field (index 77), type 'some-password' into the 'Şifre' field (index 78), then click the 'Giriş Yap' button (index 79).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('nonexistent_user_9999')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('some-password')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/login' in frame.url
-        await expect(frame.locator('text=Hata').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Kullanıcı bulunamadı').first).to_be_visible(timeout=3000)
-        assert '/login' in frame.url
+        frame = context.pages[-1]
+        # Verify we are on the login page
+        assert "/login" in frame.url
+        # The test plan expects an element with text 'Hata' to be visible, but no such element xpath is available on the page.
+        # Report the missing feature and stop the test as instructed.
+        raise AssertionError("Element with text 'Hata' not found on page. Feature missing — marking task as done.")
         await asyncio.sleep(5)
 
     finally:

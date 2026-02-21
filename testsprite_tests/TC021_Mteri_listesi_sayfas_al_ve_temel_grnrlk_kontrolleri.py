@@ -33,16 +33,44 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Explicit olarak /login sayfasına navigate etmek (uygulamanın login formunu yüklemek için).
+        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login as the test step requires).
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Fill username and password fields and click the 'Giriş Yap' button to log in.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Müşteriler' navigation link to open the Customers page and then verify the customers list and basic actions are visible.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Müşteriler' navigation link (index 411) to open the Customers page so the customers list and basic actions can be verified.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
         assert '/dashboard' in frame.url
         assert '/customers' in frame.url
         await expect(frame.locator('text=Müşteri Listesi').first).to_be_visible(timeout=3000)
-        await expect(frame.locator("xpath=//*[normalize-space(text())='Yeni müşteri ekle']").first).to_be_visible(timeout=3000)
-        await expect(frame.locator("xpath=//*[contains(normalize-space(.),'Müşteri tablosu') or contains(normalize-space(.),'liste alanı')]").first).to_be_visible(timeout=3000)
+        await expect(frame.locator('xpath=//button[normalize-space(.)="Yeni müşteri ekle"]').first).to_be_visible(timeout=3000)
+        await expect(frame.locator('xpath=//table').first).to_be_visible(timeout=3000)
         await asyncio.sleep(5)
 
     finally:

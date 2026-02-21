@@ -33,13 +33,82 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (http://localhost:4200/login) to load the login form and proceed with the login steps.
-        await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        # -> Type 'admin' into the username field (index 47) as the immediate action.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Type credentials into the username and password fields and click the 'Giriş Yap' button (index 153) to log in.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Kullanıcı adı ve şifre alanlarını (index=184, index=185) doldurup giriş butonuna (index=186) tıklamak.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the '+ Yeni Fatura' button to open the new invoice creation page (use index 523).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the '+ Yeni Fatura' button (use the visible button at index=651) to navigate to the new invoice creation page.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/invoices/new' in frame.url
-        await expect(frame.locator('text=Yeni Fatura').first).to_be_visible(timeout=3000)
+        # Assert the URL indicates the new invoice page
+        assert "/invoices/new" in frame.url
+        
+        # Verify the 'Yeni Fatura' navigation/link is visible
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[4]/a')
+        assert await elem.is_visible()
+        
+        # Verify basic invoice form fields are visible: invoice number, invoice date, customer select
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-form/div/form/div[1]/div[2]/div/div[1]/input')
+        assert await elem.is_visible()
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-form/div/form/div[1]/div[2]/div/div[2]/input')
+        assert await elem.is_visible()
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-form/div/form/div[1]/div[2]/div/div[3]/select')
+        assert await elem.is_visible()
         await asyncio.sleep(5)
 
     finally:

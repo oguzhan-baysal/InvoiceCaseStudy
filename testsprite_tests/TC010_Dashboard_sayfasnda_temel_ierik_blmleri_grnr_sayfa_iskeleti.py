@@ -33,10 +33,10 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (use navigate action to http://localhost:4200/login).
+        # -> Navigate to /login (http://localhost:4200/login) to reach the login page and continue the login flow.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
         
-        # -> Input the username into the username field (index 74) and password into the password field (index 80), then click the Login button (index 81).
+        # -> Type username into the username field (element [77]) and then type password into [78], then click the login button [79].
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
@@ -53,6 +53,7 @@ async def run_test():
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
+        frame = context.pages[-1]
         frame = context.pages[-1]
         assert "/dashboard" in frame.url
         elem = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[1]/h2/i').nth(0)

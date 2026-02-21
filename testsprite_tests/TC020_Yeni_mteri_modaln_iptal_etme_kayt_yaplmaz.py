@@ -33,10 +33,10 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Perform explicit test step: Navigate to /login (http://localhost:4200/login).
+        # -> Navigate to /login (explicit test step).
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
         
-        # -> Fill the login form (username and password) and click the 'Giriş Yap' button to sign in.
+        # -> Fill the username and password fields and click the 'Giriş Yap' button to log in.
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
@@ -52,48 +52,93 @@ async def run_test():
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Formu doldurup (index 111 ve 112) 'Giriş Yap' butonuna (index 113) tıklamak - giriş işlemini başlat.
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('admin')
-        
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('admin123')
-        
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Click on 'Müşteriler' in the main navigation menu to open the customers page (use interactive element index 244).
+        # -> Click on 'Müşteriler' in the main navigation menu to open the customers page.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Click on the 'Müşteriler' link in the main navigation (use fresh element index 445).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Click the 'Yeni Müşteri' (New Customer) button to open the customer-add modal (use interactive element index 578).
+        # -> Click the 'Yeni Müşteri' button to open the new-customer modal.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
+        # -> Fill 'İptal Edilen Müşteri' into the 'Ünvan' input (index 694) and then click the 'İptal' button in the modal (index 708).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('İptal Edilen Müşteri')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Yeni Müşteri' button to open the new-customer modal so the cancel flow can be retried and then verify the customer was not added.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Fill 'İptal Edilen Müşteri' into the Ünvan input of the open modal and click the modal's 'İptal' button to cancel. After the cancel action, the next verification step will confirm the modal is closed and the canceled customer is not in the list.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('İptal Edilen Müşteri')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Open the 'Yeni Müşteri' modal so the cancel flow can be retried (click the 'Yeni Müşteri' button). Then fill Ünvan, click İptal, verify modal closed and that 'İptal Edilen Müşteri' is not present in the customers list. Immediate action: click 'Yeni Müşteri'.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Fill the 'Ünvan' input (index 1215) with 'İptal Edilen Müşteri' then click the modal 'İptal' button (index 1229).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('İptal Edilen Müşteri')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Yeni Müşteri' button to open the new-customer modal so the cancel flow can be retried.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Fill the Ünvan input with 'İptal Edilen Müşteri' and click the modal 'İptal' button to cancel the new-customer modal.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('İptal Edilen Müşteri')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
         # --> Assertions to verify final state
         frame = context.pages[-1]
         frame = context.pages[-1]
-        elem_new_customer = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button')
-        assert await elem_new_customer.count() > 0, 'Yeni Müşteri butonu bulunamadı - müşteri yönetimi sayfası eksik veya yüklenemedi.'
-        elem_first_row_num = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/span')
-        assert await elem_first_row_num.count() > 0, 'Müşteri listesi bulunamadı - tablo satırları mevcut değil.'
-        raise AssertionError('Müşteri ekleme modalı veya modal içindeki alanlar (Ad Soyad alanı, İptal butonu veya modal container) available elements listesinde bulunamadı. İlgili özellik mevcut değil veya eksik. Görev tamamlandı ve test sonlandırıldı.')
+        # Verify we are on the customers page (final expected page in the flow)
+        assert "/customers" in frame.url
+        # Verify the 'Yeni Müşteri' button (it exists in the provided Available elements) is visible
+        btn = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[1]/button').nth(0)
+        await btn.wait_for(state='visible', timeout=5000)
+        assert await btn.is_visible()
+        # NOTE: The test plan requires asserting visibility/non-visibility of the 'Müşteri ekleme modalı' and that the text 'İptal Edilen Müşteri' is not in the customer list.
+        # However, the provided Available elements do NOT include any xpath for the modal nor any element that contains the text 'İptal Edilen Müşteri'.
+        # According to the instructions, when a feature/element does not exist in the available elements, report the issue and mark the task as done.
+        raise Exception("Element for 'Müşteri ekleme modalı' not found in the provided Available elements; cannot assert its visibility/invisibility. The text 'İptal Edilen Müşteri' also has no corresponding element xpath. Task marked as done.")
         await asyncio.sleep(5)
 
     finally:

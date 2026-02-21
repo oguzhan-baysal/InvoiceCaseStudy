@@ -33,16 +33,35 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (http://localhost:4200/login) as the test step explicitly requests, then re-evaluate page load and interactive elements.
+        # -> Navigate to /login (http://localhost:4200/login). If the page remains blank, wait a few seconds for the SPA to render, then re-check interactive elements.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Click the 'Giriş Yap' button (index 81) to submit the empty form and then check for validation/error message while ensuring the URL remains '/login'.
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/login' in frame.url
-        assert '/login' in frame.url
-        await expect(frame.locator('text=Kullanıcı adı').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Şifre').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('text=Hata').first).to_be_visible(timeout=3000)
+        # Assertions according to the test plan
+        assert "/login" in frame.url, f"Expected '/login' in URL, got {frame.url}"
+        # Ensure URL remains /login after clicking the submit button
+        await frame.wait_for_timeout(500)
+        assert "/login" in frame.url, f"Expected '/login' after click, got {frame.url}"
+        # Verify 'Kullanıcı adı' input is visible
+        user_input = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input')
+        assert await user_input.is_visible(), "Kullanıcı adı input is not visible"
+        # Verify 'Şifre' label is visible
+        password_label = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/label')
+        assert await password_label.is_visible(), "Şifre label is not visible"
+        # Verify error/toast is visible (expected validation error after submitting empty form)
+        toast = frame.locator('xpath=/html/body/app-root/app-toast/div')
+        try:
+            await toast.wait_for(state='visible', timeout=5000)
+        except Exception:
+            raise AssertionError("Expected error/toast ('Hata') to be visible after submitting empty login, but it was not found.")
+        assert await toast.is_visible(), "Hata (toast) is not visible"
         await asyncio.sleep(5)
 
     finally:

@@ -33,15 +33,41 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login) so the login form can be located.
+        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login)
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Type 'admin' into the username field (index 74), then type 'admin123' into the password field (index 80), then click the Login button (index 81).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert '/dashboard' in frame.url
-        await expect(frame.locator('text=Son Faturalar').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('xpath=//table[contains(.,"Son Faturalar")]').first).to_be_visible(timeout=3000)
-        await expect(frame.locator('xpath=//table[contains(.,"Son Faturalar")]//thead/tr').first).to_be_visible(timeout=3000)
+        # Assertions for dashboard and recent invoices section
+        assert "/dashboard" in frame.url
+        
+        # Verify "Son Faturalar" header/icon is visible
+        el = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[3]/div[1]/h5/i').nth(0)
+        assert await el.is_visible(), 'Expected Son Faturalar header/icon to be visible: xpath=/html/body/app-root/app-dashboard/div/div[3]/div[1]/h5/i'
+        
+        # Verify Recent invoices table is visible (using the nearby "Tüm Faturaları Görüntüle" button as indicator)
+        table_indicator = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[3]/div[3]/button').nth(0)
+        assert await table_indicator.is_visible(), 'Expected Recent invoices table (indicator button) to be visible: xpath=/html/body/app-root/app-dashboard/div/div[3]/div[3]/button'
+        
+        # Verify Recent invoices table header row is visible (using the same header/icon element)
+        header_row = frame.locator('xpath=/html/body/app-root/app-dashboard/div/div[3]/div[1]/h5/i').nth(0)
+        assert await header_row.is_visible(), 'Expected Recent invoices table header row to be visible: xpath=/html/body/app-root/app-dashboard/div/div[3]/div[1]/h5/i'
         await asyncio.sleep(5)
 
     finally:

@@ -33,10 +33,10 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (http://localhost:4200/login) to load the login page so the login form can be interacted with.
+        # -> Navigate to /login (use explicit navigate to http://localhost:4200/login per test instruction to reach the login page).
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
         
-        # -> Type the username ('admin') into the username field (index 74).
+        # -> Input username into the username field (index 74), input password into the password field (index 80), then click the Giriş button (index 81).
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
@@ -52,25 +52,19 @@ async def run_test():
         elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Click the 'Müşteriler' link in the main navigation to open the customers list (use element index 363).
+        # -> Click on 'Müşteriler' in the main navigation to open the customers page (use element index 361).
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Click the 'Düzenle' (edit) button for the first customer to open the edit modal (use element index 552).
+        # -> Click the 'Düzenle' button for an existing customer to open the edit modal (use index 629).
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Click the 'Düzenle' (edit) button for the first customer using the fresh element index 635.
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Fill the 'Ünvan' field with 'Güncellenmiş Müşteri' (input index 825) and click the 'Kaydet' button (index 841) to save the customer.
+        # -> Fill the Ünvan input (index 821) with 'Güncellenmiş Müşteri' and click the Kaydet button (index 837) to save changes.
         frame = context.pages[-1]
         # Input text
         elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
@@ -81,69 +75,13 @@ async def run_test():
         elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Click the 'Düzenle' (edit) button for the first customer using the fresh element index 910 to re-open the edit modal so the change can be saved.
+        # -> Re-open the customer's edit modal (click Düzenle for the target customer) to get fresh modal elements so the save (Kaydet) can be retried, then save and verify toast and list update.
         frame = context.pages[-1]
         # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
+        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[2]/td[6]/button[1]').nth(0)
         await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
-        # -> Type 'Güncellenmiş Müşteri' into the 'Ünvan' input (index 1089) and then click the 'Kaydet' button (index 1105) to save the edited customer.
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('Güncellenmiş Müşteri')
-        
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Click the 'Düzenle' (edit) button for the first customer to re-open the edit modal (use element index 1167).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Type 'Güncellenmiş Müşteri' into the 'Ünvan' input (index 1347) and click the 'Kaydet' button (index 1363). Then wait briefly for the save to complete and for the success toast to appear.
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('Güncellenmiş Müşteri')
-        
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Click the 'Düzenle' (edit) button for the first customer to open the edit modal (use element index 1425).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Fill the 'Ünvan' field with 'Güncellenmiş Müşteri', click 'Kaydet', wait for the save to complete, and then verify the success toast and that the updated name appears in the customers list.
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('Güncellenmiş Müşteri')
-        
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Click 'Düzenle' for the first customer to open the edit modal (use element index 1683).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').nth(0)
-        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
-        
-        # -> Type 'Güncellenmiş Müşteri' into the 'Ünvan' input (index 1863) and click the 'Kaydet' button (index 1879), then wait briefly for the save to complete and for the success toast/list update to appear.
-        frame = context.pages[-1]
-        # Input text
-        elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[2]/div/div[2]/input').nth(0)
-        await page.wait_for_timeout(3000); await elem.fill('Güncellenmiş Müşteri')
-        
+        # -> Click the Kaydet button in the modal to save changes, wait for the save to complete, then verify the 'Başarılı' toast and that 'Güncellenmiş Müşteri' appears in the customers list.
         frame = context.pages[-1]
         # Click element
         elem = frame.locator('xpath=/html/body/app-root/app-customer-list/div[2]/div/div/div[3]/button[2]').nth(0)
@@ -151,27 +89,11 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        # --- Assertions appended according to the test plan and available page elements ---
-        frame = context.pages[-1]
-        # Verify we are on the customers page
-        assert "/customers" in frame.url, f"Unexpected URL, expected '/customers' in {frame.url}"
-        # Verify the 'Müşteriler' navigation link is visible
-        assert await frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[3]/a').is_visible(), "Müşteriler nav link is not visible"
-        # Verify the first customer's 'Düzenle' (edit) button is visible in the list
-        assert await frame.locator('xpath=/html/body/app-root/app-customer-list/div/div[2]/div[1]/table/tbody/tr[1]/td[6]/button[1]').is_visible(), "Edit button for first customer is not visible"
-        # Verify success toast appeared and contains the expected text 'Başarılı'
-        toast = frame.locator('xpath=/html/body/app-root/app-toast/div')
-        try:
-            await toast.wait_for(state='visible', timeout=5000)
-            toast_text = (await toast.inner_text()).strip()
-        except Exception as e:
-            raise AssertionError("Success toast did not appear: app-toast element not visible") from e
-        if "Başarılı" not in toast_text:
-            raise AssertionError(f"Expected toast text 'Başarılı' not found. Actual toast text: '{toast_text}'")
-        # Verify the updated customer name 'Güncellenmiş Müşteri' is visible in the list
-        # NOTE: There is no element in the provided available elements that contains the text 'Güncellenmiş Müşteri'.
-        # Cannot assert presence of the updated name using the given xpaths. Report this as a test limitation/failure.
-        raise AssertionError("Could not verify updated customer name 'Güncellenmiş Müşteri' because no element with that text is present in the available elements list.")
+        assert '/dashboard' in frame.url
+        assert '/customers' in frame.url
+        await expect(frame.locator('xpath=//div[contains(.,"Müşteri düzenleme")]').first).to_be_visible(timeout=3000)
+        await expect(frame.locator('text=Başarılı').first).to_be_visible(timeout=3000)
+        await expect(frame.locator('text=Güncellenmiş Müşteri').first).to_be_visible(timeout=3000)
         await asyncio.sleep(5)
 
     finally:

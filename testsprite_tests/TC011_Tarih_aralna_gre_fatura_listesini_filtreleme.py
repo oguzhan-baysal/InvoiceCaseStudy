@@ -33,8 +33,62 @@ async def run_test():
         # -> Navigate to http://localhost:4200
         await page.goto("http://localhost:4200", wait_until="commit", timeout=10000)
         
-        # -> Navigate to /login (explicit test step).
+        # -> Navigate to /login (http://localhost:4200/login) and wait for the login form to appear. If the form is blank, wait a few seconds and re-check for inputs with data-testid userName/password/loginButton.
         await page.goto("http://localhost:4200/login", wait_until="commit", timeout=10000)
+        
+        # -> Type the username into the username field (input index 77), then type the password into the password field (input index 78), then click the 'Giriş' button (button index 79).
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('admin123')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-login/div/div/form/button').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Click the 'Faturalar' navigation link to open the invoices page (index 406).
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/nav/div/div/ul/li[2]/a').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Set Başlangıç Tarihi (index 559) and Bitiş Tarihi (index 572) to a valid YYYY-MM-DD range, then click the Filtrele button (index 574) to apply the filter and observe the invoice list updating on screen.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('2025-01-01')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('2025-12-31')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
+        
+        # -> Fill Başlangıç Tarihi (index=855) with '2026-02-01', fill Bitiş Tarihi (index=860) with '2026-02-28', then click Filtrele (index=862) to apply the filter so the invoice list updates.
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[1]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('2026-02-01')
+        
+        frame = context.pages[-1]
+        # Input text
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[2]/input').nth(0)
+        await page.wait_for_timeout(3000); await elem.fill('2026-02-28')
+        
+        frame = context.pages[-1]
+        # Click element
+        elem = frame.locator('xpath=/html/body/app-root/app-invoice-list/div/div[2]/div/div/div[3]/button[1]').nth(0)
+        await page.wait_for_timeout(3000); await elem.click(timeout=5000)
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
