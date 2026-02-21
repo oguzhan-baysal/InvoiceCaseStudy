@@ -118,7 +118,7 @@ export class InvoiceListComponent implements OnInit {
         }).format(amount);
     }
 
-    onExportPdf(invoice: Invoice): void {
-        this.pdfService.exportInvoicePdf(invoice);
+    async onExportPdf(invoice: Invoice): Promise<void> {
+        await this.pdfService.exportInvoicePdf(invoice);
     }
 }

@@ -25,15 +25,20 @@ namespace InvoiceApi.Controllers
         {
             var totalInvoices = await _context.Invoices.CountAsync();
             var totalCustomers = await _context.Customers.CountAsync();
-            var totalAmount = await _context.Invoices.SumAsync(i => (decimal?)i.TotalAmount) ?? 0;
+
+            // SQLite does not support SumAsync with decimal, so we compute in memory
+            var allAmounts = await _context.Invoices
+                .Select(i => i.TotalAmount)
+                .ToListAsync();
+            var totalAmount = allAmounts.Any() ? allAmounts.Sum() : 0m;
 
             var last30Days = DateTime.UtcNow.AddDays(-30);
-            var recentAmount = await _context.Invoices
+            var recentInvoiceData = await _context.Invoices
                 .Where(i => i.InvoiceDate >= last30Days)
-                .SumAsync(i => (decimal?)i.TotalAmount) ?? 0;
-            var recentCount = await _context.Invoices
-                .Where(i => i.InvoiceDate >= last30Days)
-                .CountAsync();
+                .Select(i => i.TotalAmount)
+                .ToListAsync();
+            var recentAmount = recentInvoiceData.Any() ? recentInvoiceData.Sum() : 0m;
+            var recentCount = recentInvoiceData.Count;
 
             var recentInvoices = await _context.Invoices
                 .Include(i => i.Customer)
