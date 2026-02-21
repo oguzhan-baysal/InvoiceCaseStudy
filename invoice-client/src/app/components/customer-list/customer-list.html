@@ -1,0 +1,168 @@
+<div class="container-fluid py-4 px-4 fade-in">
+    <!-- Page Header -->
+    <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h2>
+            <i class="bi bi-people" style="color: #4361ee;"></i> Müşteri Yönetimi
+        </h2>
+        <button class="btn btn-success-custom" (click)="onAdd()">
+            <i class="bi bi-plus-lg me-1"></i> Yeni Müşteri
+        </button>
+    </div>
+
+    <!-- Loading -->
+    @if (isLoading) {
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Yükleniyor...</span>
+        </div>
+        <p class="mt-3 text-muted fw-500">Müşteriler yükleniyor...</p>
+    </div>
+    }
+
+    <!-- Customer Table -->
+    @if (!isLoading && customers.length > 0) {
+    <div class="card card-custom mt-3">
+        <div class="table-responsive">
+            <table class="table table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Vergi No</th>
+                        <th>Ünvan</th>
+                        <th>Adres</th>
+                        <th>E-Posta</th>
+                        <th class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (customer of customers; track customer.customerId; let i = $index) {
+                    <tr class="fade-in">
+                        <td><span class="badge bg-primary rounded-pill">{{ i + 1 }}</span></td>
+                        <td><span class="fw-semibold">{{ customer.taxNumber }}</span></td>
+                        <td>{{ customer.title }}</td>
+                        <td>{{ customer.address || '-' }}</td>
+                        <td>{{ customer.eMail || '-' }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-warning-custom me-1" (click)="onEdit(customer)"
+                                title="Düzenle">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger-custom" (click)="onDeleteClick(customer.customerId)"
+                                title="Sil">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white text-muted py-3 px-4">
+            <small><i class="bi bi-info-circle me-1"></i>Toplam {{ customers.length }} müşteri listelendi.</small>
+        </div>
+    </div>
+    }
+
+    <!-- Empty State -->
+    @if (!isLoading && customers.length === 0) {
+    <div class="card card-custom mt-3">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-people" style="font-size: 4rem; color: #ccc;"></i>
+            <h4 class="mt-3 text-muted">Müşteri bulunamadı</h4>
+            <p class="text-muted">Henüz kayıtlı müşteri yok.</p>
+            <button class="btn btn-primary-custom mt-2" (click)="onAdd()">
+                <i class="bi bi-plus-lg me-1"></i> İlk Müşteriyi Ekle
+            </button>
+        </div>
+    </div>
+    }
+</div>
+
+<!-- Customer Form Modal -->
+@if (showForm) {
+<div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 16px; border: none;">
+            <div class="modal-header"
+                style="background: linear-gradient(135deg, #4361ee, #3a0ca3); color: white; border-radius: 16px 16px 0 0;">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-plus me-2"></i>{{ formTitle }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" (click)="onFormCancel()"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label form-label-custom">
+                            <i class="bi bi-hash me-1"></i>Vergi No <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-custom"
+                            [(ngModel)]="currentCustomer.taxNumber" placeholder="Vergi numarası" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-custom">
+                            <i class="bi bi-building me-1"></i>Ünvan <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-custom" [(ngModel)]="currentCustomer.title"
+                            placeholder="Firma ünvanı" />
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label form-label-custom">
+                            <i class="bi bi-geo-alt me-1"></i>Adres
+                        </label>
+                        <textarea class="form-control form-control-custom" rows="2"
+                            [(ngModel)]="currentCustomer.address" placeholder="Adres bilgisi"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-custom">
+                            <i class="bi bi-envelope me-1"></i>E-Posta
+                        </label>
+                        <input type="email" class="form-control form-control-custom" [(ngModel)]="currentCustomer.eMail"
+                            placeholder="ornek@firma.com" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 px-4 pb-4">
+                <button type="button" class="btn btn-outline-secondary" (click)="onFormCancel()"
+                    style="border-radius: 8px;">
+                    <i class="bi bi-x-lg me-1"></i>İptal
+                </button>
+                <button type="button" class="btn btn-primary-custom" (click)="onFormSave()">
+                    <i class="bi bi-check-lg me-1"></i>Kaydet
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<!-- Delete Confirmation Modal -->
+@if (showDeleteModal) {
+<div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Müşteri Silme Onayı
+                </h5>
+                <button type="button" class="btn-close" (click)="onDeleteCancel()"></button>
+            </div>
+            <div class="modal-body py-4">
+                <p class="mb-0 text-center" style="font-size: 1.05rem;">
+                    Bu müşteriyi silmek istediğinizden emin misiniz?<br>
+                    <strong class="text-danger">Bu müşteriye ait faturalar varsa silinemez.</strong>
+                </p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-secondary" (click)="onDeleteCancel()"
+                    style="border-radius: 8px;">
+                    <i class="bi bi-x-lg me-1"></i>İptal
+                </button>
+                <button type="button" class="btn btn-danger-custom" (click)="onDeleteConfirm()">
+                    <i class="bi bi-trash3 me-1"></i>Evet, Sil
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

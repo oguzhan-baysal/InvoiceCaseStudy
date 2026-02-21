@@ -14,4 +14,18 @@ export class CustomerService {
     getCustomers(): Observable<Customer[]> {
         return this.http.get<Customer[]>(`${this.apiUrl}/list`);
     }
+
+    saveCustomer(customer: Customer): Observable<any> {
+        return this.http.post(`${this.apiUrl}/save`, customer);
+    }
+
+    updateCustomer(customer: Customer): Observable<any> {
+        return this.http.put(`${this.apiUrl}/update`, customer);
+    }
+
+    deleteCustomer(customerId: number): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/delete`, {
+            body: { customerId }
+        });
+    }
 }
