@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InvoiceService } from '../../services/invoice.service';
 import { PdfService } from '../../services/pdf.service';
+import { NotificationService } from '../../services/notification.service';
 import { Invoice } from '../../models/models';
 
 @Component({
@@ -26,6 +27,7 @@ export class InvoiceListComponent implements OnInit {
     constructor(
         private invoiceService: InvoiceService,
         private pdfService: PdfService,
+        private notify: NotificationService,
         private router: Router,
         private cdr: ChangeDetectorRef
     ) { }
@@ -48,6 +50,7 @@ export class InvoiceListComponent implements OnInit {
             error: (err) => {
                 this.isLoading = false;
                 this.errorMessage = 'Faturalar yüklenirken hata oluştu.';
+                this.notify.error('Faturalar yüklenirken hata oluştu.');
                 console.error(err);
                 this.cdr.detectChanges();
             }
@@ -83,18 +86,14 @@ export class InvoiceListComponent implements OnInit {
 
         this.invoiceService.deleteInvoice(this.deleteInvoiceId).subscribe({
             next: () => {
-                this.successMessage = 'Fatura başarıyla silindi.';
+                this.notify.success('Fatura başarıyla silindi.');
                 this.showDeleteModal = false;
                 this.deleteInvoiceId = null;
                 this.cdr.detectChanges();
                 this.loadInvoices();
-                setTimeout(() => {
-                    this.successMessage = '';
-                    this.cdr.detectChanges();
-                }, 3000);
             },
             error: (err) => {
-                this.errorMessage = 'Fatura silinirken hata oluştu.';
+                this.notify.error('Fatura silinirken hata oluştu.');
                 this.showDeleteModal = false;
                 console.error(err);
                 this.cdr.detectChanges();

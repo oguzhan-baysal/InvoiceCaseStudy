@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvoiceService } from '../../services/invoice.service';
 import { CustomerService } from '../../services/customer.service';
+import { NotificationService } from '../../services/notification.service';
 import { Invoice, InvoiceLine, Customer } from '../../models/models';
 
 @Component({
@@ -33,6 +34,7 @@ export class InvoiceFormComponent implements OnInit {
     constructor(
         private invoiceService: InvoiceService,
         private customerService: CustomerService,
+        private notify: NotificationService,
         private router: Router,
         private route: ActivatedRoute,
         private cdr: ChangeDetectorRef
@@ -156,11 +158,13 @@ export class InvoiceFormComponent implements OnInit {
         if (this.isEditMode) {
             this.invoiceService.updateInvoice(saveData).subscribe({
                 next: () => {
+                    this.notify.success('Fatura başarıyla güncellendi.');
                     this.router.navigate(['/invoices']);
                 },
                 error: (err) => {
                     this.isSaving = false;
                     this.errorMessage = 'Fatura güncellenirken hata oluştu.';
+                    this.notify.error('Fatura güncellenirken hata oluştu.');
                     console.error(err);
                     this.cdr.detectChanges();
                 }
@@ -168,11 +172,13 @@ export class InvoiceFormComponent implements OnInit {
         } else {
             this.invoiceService.saveInvoice(saveData).subscribe({
                 next: () => {
+                    this.notify.success('Fatura başarıyla kaydedildi.');
                     this.router.navigate(['/invoices']);
                 },
                 error: (err) => {
                     this.isSaving = false;
                     this.errorMessage = 'Fatura kaydedilirken hata oluştu.';
+                    this.notify.error('Fatura kaydedilirken hata oluştu.');
                     console.error(err);
                     this.cdr.detectChanges();
                 }
