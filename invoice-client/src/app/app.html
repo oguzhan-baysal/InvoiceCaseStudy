@@ -1,0 +1,37 @@
+<!-- Navbar - only visible when logged in -->
+@if (authService.loggedIn()) {
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/invoices">
+      <i class="bi bi-receipt-cutoff me-2"></i>Fatura Yönetimi
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/invoices">
+            <i class="bi bi-list-ul me-1"></i>Faturalar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/invoices/new">
+            <i class="bi bi-plus-circle me-1"></i>Yeni Fatura
+          </a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <span class="text-white-50">
+          <i class="bi bi-person-circle me-1"></i>{{ authService.getUserName() }}
+        </span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()" style="border-radius: 8px;">
+          <i class="bi bi-box-arrow-right me-1"></i>Çıkış
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+}
+
+<router-outlet />

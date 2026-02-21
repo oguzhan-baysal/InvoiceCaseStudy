@@ -1,0 +1,67 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="bi bi-receipt-cutoff"></i>
+    </div>
+    <h2 class="text-center mb-1 fw-bold" style="color: #1a1a2e;">Fatura Yönetimi</h2>
+    <p class="text-center text-muted mb-4">Hesabınıza giriş yapın</p>
+
+    @if (errorMessage) {
+      <div class="alert alert-danger alert-custom fade-in" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>{{ errorMessage }}
+      </div>
+    }
+
+    <form (ngSubmit)="onLogin()">
+      <div class="mb-3">
+        <label for="userName" class="form-label form-label-custom">
+          <i class="bi bi-person me-1"></i>Kullanıcı Adı
+        </label>
+        <input
+          type="text"
+          class="form-control form-control-custom"
+          id="userName"
+          [(ngModel)]="userName"
+          name="userName"
+          placeholder="Kullanıcı adınızı girin"
+          autocomplete="username"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label form-label-custom">
+          <i class="bi bi-lock me-1"></i>Şifre
+        </label>
+        <input
+          type="password"
+          class="form-control form-control-custom"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Şifrenizi girin"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary-custom w-100 py-3"
+        [disabled]="isLoading"
+      >
+        @if (isLoading) {
+          <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+          Giriş yapılıyor...
+        } @else {
+          <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+        }
+      </button>
+    </form>
+
+    <div class="text-center mt-4">
+      <small class="text-muted">
+        <i class="bi bi-info-circle me-1"></i>
+        Demo: admin / admin123
+      </small>
+    </div>
+  </div>
+</div>

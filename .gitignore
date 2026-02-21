@@ -1,0 +1,45 @@
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.history/
+
+# Backend (.NET)
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docuser
+.vs/
+*.db
+*.db-shm
+*.db-wal
+*.log
+TestResults/
+
+# Frontend (Node/Angular)
+invoice-client/node_modules/
+invoice-client/dist/
+invoice-client/.angular/
+invoice-client/tmp/
+invoice-client/coverage/
+invoice-client/npm-debug.log*
+invoice-client/yarn-debug.log*
+invoice-client/yarn-error.log*
+invoice-client/.vscode/
+
+# Project specific exclusions
+task.md
+*.txt
+*.pdf
