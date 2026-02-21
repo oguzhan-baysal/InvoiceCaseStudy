@@ -1,3 +1,11 @@
+<img width="1280" height="569" alt="Image" src="https://github.com/user-attachments/assets/9fcf2988-087a-4ed4-a887-6db9bef43ace" />
+
+
+
+
+
+
+
 # 🧾 Invoice Management System - Case Study
 
 Bu proje, modern web teknolojileri kullanılarak geliştirilmiş uçtan uca bir **Fatura Yönetim Sistemi** portalıdır. Bir Case Study kapsamında hazırlanmış olup, hem Backend hem de Frontend mimarisiyle profesyonel standartları hedeflemektedir.
