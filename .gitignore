@@ -43,3 +43,8 @@ invoice-client/.vscode/
 task.md
 *.txt
 *.pdf
+.agent/
+testsprite_tests/tmp/
+testsprite_tests/*.json
+testsprite_tests/*.py
+mcp_config.json
