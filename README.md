@@ -16,11 +16,12 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
 
 ### 1. Ön Gereksinimler
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Node.js](https://nodejs.org/) (v18+)
-- [Angular CLI](https://angular.io/cli)
+- [Node.js](https://nodejs.org/) **20.19+** (Angular 21, Node 18'i desteklemez; Node 24 LTS önerilir)
+
+Global Angular CLI kurulumu gerekmez: `@angular/cli` projenin `devDependencies` paketidir ve `npm install` ile birlikte gelir. Komutlar `npm` script'leri üzerinden çalıştırılır.
 
 ### 2. Backend Çalıştırma (ASP.NET Core API)
-Backend ayağa kalktığında otomatik olarak bir SQLite veritabanı oluşturur ve örnek verileri (seed data) yükler.
+Backend ayağa kalktığında `InvoiceApi/invoice.db` SQLite dosyasını otomatik oluşturur ve örnek verileri (seed data) yükler; migration komutu çalıştırmanız gerekmez.
 ```bash
 cd InvoiceApi
 dotnet run
@@ -29,12 +30,31 @@ dotnet run
 - **Swagger Dokümantasyonu:** `http://localhost:5000/swagger`
 
 ### 3. Frontend Çalıştırma (Angular)
+Frontend, `/api` isteklerini `invoice-client/proxy.conf.json` üzerinden `http://localhost:5000` adresine yönlendirir; bu nedenle **önce backend çalışıyor olmalıdır**, aksi halde API çağrıları başarısız olur.
 ```bash
 cd invoice-client
 npm install
 npm start
 ```
 - **Uygulama URL:** `http://localhost:4200`
+
+### 4. Yapılandırma
+Tüm ayarlar `InvoiceApi/appsettings.json` dosyasından okunur, ek bir `.env` dosyası gerekmez.
+
+| Anahtar | Açıklama | Varsayılan |
+| --- | --- | --- |
+| `ConnectionStrings:DefaultConnection` | EF Core / SQLite bağlantı dizesi | `Data Source=invoice.db` |
+| `Jwt:Key` | JWT imzalama anahtarı (`Program.cs` ve `AuthController` tarafından okunur) | Geliştirme anahtarı |
+| `Jwt:Issuer` | Token `iss` değeri | `InvoiceApi` |
+| `Jwt:Audience` | Token `aud` değeri | `InvoiceClient` |
+
+Gerçek bir dağıtımda JWT anahtarını dosyada tutmak yerine kullanıcı gizli anahtarları (user secrets) veya ortam değişkenleri ile geçersiz kılın:
+```bash
+cd InvoiceApi
+dotnet user-secrets init
+dotnet user-secrets set "Jwt:Key" "<uretim-anahtari>"
+```
+Ortam değişkeni karşılıkları: `ConnectionStrings__DefaultConnection`, `Jwt__Key`, `Jwt__Issuer`, `Jwt__Audience`.
 
 ---
 
